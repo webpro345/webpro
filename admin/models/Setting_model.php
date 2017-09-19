@@ -25,18 +25,6 @@ class Setting_model extends CI_Model
         }
     }
 
-    private function update_data()
-    {
-        $this->data = array();
-        $this->db->reset_query();
-        $this->db->from($this->tableName);
-        $result = $this->db->get();
-        $result = $result->result_array();
-        foreach ($result as $row) {
-            $this->data[$row['name']] = $row['value'];
-        }
-    }
-
     /**
      * @param $name
      * @return mixed|null
@@ -53,24 +41,5 @@ class Setting_model extends CI_Model
     function get_list()
     {
         return $this->data;
-    }
-
-    /**
-     * @param $datas
-     * @return bool
-     */
-    public function update($datas)
-    {
-        foreach ($datas as $key => $value) {
-            if (isset($this->data[$key])) {
-                $this->db->reset_query();
-                $this->db->where('name', $key);
-                if (!$this->db->update($this->tableName, array('value' => $value))) {
-                    return false;
-                }
-            }
-        }
-        $this->update_data();
-        return true;
     }
 }
